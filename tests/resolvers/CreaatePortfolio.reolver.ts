@@ -1,9 +1,9 @@
 import { Resolver, Mutation } from 'type-graphql';
-import PortfolioEntity from '../entities/PortfolioEntity';
 import { getRepository } from 'typeorm';
-import PortfolioVersionEntity from '../entities/PortfolioVersionEntity';
-import PageEntity from '../entities/PageEntity';
-import { PORTFOLIO_VERSIONS } from '../helpers/constants';
+import PortfolioEntity from '../../src/entities/PortfolioEntity';
+import PortfolioVersionEntity from '../../src/entities/PortfolioVersionEntity';
+import PageEntity from '../../src/entities/PageEntity';
+import { PORTFOLIO_VERSIONS } from '../../src/helpers/constants';
 
 @Resolver()
 export default class CreatePortfolioResolver {
@@ -33,15 +33,13 @@ export default class CreatePortfolioResolver {
     // Create example pages associated with the portfolio version
     const pageRepository = getRepository(PageEntity);
     const pages: PageEntity[] = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 5; i += 1) {
       const page = new PageEntity();
       page.name = `Page ${i}`;
       page.url = `http://example.com/page${i}`;
       page.portfolioVersion = savedPortfolioVersion;
       pages.push(page);
     }
-
-    console.log('----created data', savedPortfolio, pages, portfolioVersion);
     // Save the pages to the database
     await pageRepository.save(pages);
 

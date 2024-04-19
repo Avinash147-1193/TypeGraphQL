@@ -10,8 +10,9 @@ import PageEntity from '../entities/PageEntity';
 export default class PortfolioPagesResolver {
   @Query(() => [PageEntity])
   async portfolioPages(@Arg('versionId', () => Int) versionId: number): Promise<PageEntity[]> {
-    console.log('-----hitting, page list by version id');
     const pageRepository = getRepository(PageEntity);
-    return pageRepository.find({ where: { portfolioVersion: versionId } });
+    return pageRepository.createQueryBuilder('pv')
+    .where('pv.portfolioVersionId = :versionId', { versionId })
+    .getMany();
   }
 }

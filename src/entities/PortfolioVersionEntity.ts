@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import PageEntity from './PageEntity';
 import PortfolioEntity from './PortfolioEntity';
@@ -14,8 +14,13 @@ export default class PortfolioVersionEntity {
   @Column('varchar', { nullable: false })
   type: string;
 
-  @ManyToOne(() => PortfolioEntity, { nullable: false })
+  @Field(() => PortfolioEntity)
+  @ManyToOne(() => PortfolioEntity, portfolio => portfolio.versions, { nullable: false })
+  @JoinColumn({ name: 'portfolioId' }) // Define the name of the foreign key column
   portfolio: PortfolioEntity;
+
+  @Column({ nullable: false })
+  portfolioId: number; // Define the foreign key column
 
   @Field(() => [PageEntity])
   @OneToMany(() => PageEntity, (page) => page.portfolioVersion)
