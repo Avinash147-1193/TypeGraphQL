@@ -13,7 +13,7 @@ export default class ListPortfolioVersionsResolver {
     const portfolioVersionRepository = getRepository(PortfolioVersionEntity);
     return portfolioVersionRepository.find({
       where: { portfolio: portfolioId },
-      relations: ['pages']
+      relations: ['pages'],
     });
   }
 }

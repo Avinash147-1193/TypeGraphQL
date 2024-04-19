@@ -10,15 +10,12 @@ import { PORTFOLIO_VERSIONS } from '../helpers/constants';
 @Service()
 export default class CreateSnapshotMutation {
   @Mutation(() => PortfolioVersionEntity)
-  async createSnapshot(
-    @Arg('portfolioId') portfolioId: number,
-    @Arg('draftVersionId') draftVersionId: number
-  ): Promise<PortfolioVersionEntity> {
+  async createSnapshot(@Arg('draftVersionId') draftVersionId: number): Promise<PortfolioVersionEntity> {
     const portfolioVersionRepository = getRepository(PortfolioVersionEntity);
     const draftVersion = await portfolioVersionRepository.findOne(draftVersionId, {
-      relations: ['pages']
+      relations: ['pages'],
     });
-    
+
     if (!draftVersion) {
       throw new Error('Draft version not found');
     }

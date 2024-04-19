@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import PortfolioVersionEntity from './PortfolioVersionEntity';
 import { ObjectType, Field } from 'type-graphql';
+import PortfolioVersionEntity from './PortfolioVersionEntity';
 
 @ObjectType('Page')
 @Entity()

@@ -1,7 +1,5 @@
 import Koa from 'koa';
 import 'reflect-metadata';
-
-//import config from './config';
 import createApolloServer from './helpers/createApolloServer';
 import { getConnection } from './helpers/database';
 
