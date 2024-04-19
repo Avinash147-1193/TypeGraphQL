@@ -3,6 +3,7 @@ import createApolloServer from '../test_helpers/createApolloServer';
 import CreatePortfolioResolver from './CreaatePortfolio.reolver'; // Import the PortfolioResolver class
 import PortfolioEntity from '../../src/entities/PortfolioEntity';
 import PortfolioVersionEntity from '../../src/entities/PortfolioVersionEntity';
+import PageEntity from '../../src/entities/PageEntity';
 
 const server = createApolloServer();
 // Define the GraphQL query
@@ -52,20 +53,20 @@ describe('createPortfolioWithVersionAndPages', () => {
     const listPagesByVersion = await server.executeOperation({ query: QUERY3, variables: { versionId: 2 } });
 
     response.data?.listPortfolios.forEach((portfolio: PortfolioEntity) => {
-      console.log(portfolio);
+      console.log('---portfolio: ',portfolio);
     });
 
     listVersions.data?.listPortfolioVersions.forEach((portfolioVersion: PortfolioVersionEntity) => {
-      console.log(portfolioVersion);
+      console.log('---portfolioVersion: ', portfolioVersion);
     });
 
-    listPagesByVersion.data?.portfolioPages.forEach((portfolioVersion: PortfolioVersionEntity) => {
-      console.log(portfolioVersion);
+    listPagesByVersion.data?.portfolioPages.forEach((portfolioVersionPages: PageEntity) => {
+      console.log('---portfolioVersionPages: ',portfolioVersionPages);
     });
     // Assert that the resolver returns the correct number of portfolios
     expect(response.data?.listPortfolios.length).toBe(1); // Update the expected value to 1 since we are creating only one portfolio
-    expect(listVersions.data?.listPortfolioVersions.length).toBe(1);
-    expect(listPagesByVersion.data?.portfolioPages.length).toBe(5);
+    expect(listVersions.data?.listPortfolioVersions.length).toBe(1); // Update the expected value to 1 since we are creating only one portfolioVersion Draft
+    expect(listPagesByVersion.data?.portfolioPages.length).toBe(5); // Update the expected value to 5 since we are creating five pages
     // Log the fetched portfolios to the console
   });
 });
