@@ -39,7 +39,7 @@ describe('createPortfolioWithVersionAndPages', () => {
   // Test case: Returns correct portfolios with versions and pages
   test('returns correct portfolios with versions and pages', async () => {
     // Create an instance of the PortfolioResolver class
-    const portfolioResolver = new CreatePortfolioResolver();
+    const portfolioResolver = new CreatePortfolioResolver(); // using dummy resolver as source
 
     // Invoke the resolver function to create portfolios with versions and pages
     await portfolioResolver.createPortfolioWithVersionAndPages();
