@@ -1,13 +1,14 @@
 import { gql } from 'apollo-server-core';
 import createApolloServer from '../test_helpers/createApolloServer';
 import CreatePortfolioResolver from './CreaatePortfolio.reolver'; // Import the PortfolioResolver class
-import PortfolioEntity from '../../src/entities/PortfolioEntity';
+import PageEntity from '../../src/entities/PageEntity';
 
 const server = createApolloServer();
 // Define the GraphQL query
-const QUERY = gql`
-  query ListPortfolios {
-    listPortfolios {
+
+const QUERY3 = gql`
+  query PortfolioPages($versionId: Int!) {
+    portfolioPages(versionId: $versionId) {
       id
       name
       url
@@ -25,13 +26,14 @@ describe('createPortfolioWithVersionAndPages', () => {
     await portfolioResolver.createPortfolioWithVersionAndPages();
 
     // Query portfolios using GraphQL resolve
-    const response = await server.executeOperation({ query: QUERY });
 
-    response.data?.listPortfolios.forEach((portfolio: PortfolioEntity) => {
-      console.log('---portfolio: ',portfolio);
+    const listPagesByVersion = await server.executeOperation({ query: QUERY3, variables: { versionId: 2 } });
+
+    listPagesByVersion.data?.portfolioPages.forEach((portfolioVersionPages: PageEntity) => {
+      console.log('---pages: ',portfolioVersionPages);
     });
     // Assert that the resolver returns the correct number of portfolios
-    expect(response.data?.listPortfolios.length).toBe(1); // Update the expected value to 1 since we are creating only one portfolio
+    expect(listPagesByVersion.data?.portfolioPages.length).toBe(5); // Update the expected value to 5 since we are creating five pages
     // Log the fetched portfolios to the console
   });
 });
